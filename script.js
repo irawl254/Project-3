@@ -15,4 +15,15 @@ async function fetchData() {
     }
   }
 
-     
+   async function loadPage(pageName, divName) {
+    alert("Loading page: " + pageName);
+    const pageDiv = document.getElementById(divName);
+    pageDiv.innerHTML = ''; // Clear the div before loading new content
+    const pagePath = `./${pageName}`; // Assuming the HTML files are in the same directory
+    fetch(pagePath)
+      .then(response => response.text())
+      .then(data => {
+        pageDiv.innerHTML = data;
+      })
+      .catch(error => console.error('Error loading page:', error));
+   }
