@@ -18,12 +18,29 @@
     </header>
     <nav>
         <div class="nav">
-            <a onclick="loadPage('stats.html','mainDiv');">Stats</a>
-            <a onclick="loadPage('quiz.html','mainDiv');">Quiz</a>
+            <a onclick="showDiv('statsDiv');">Stats</a>
+            <a onclick="showDiv('quizDiv');">Quiz</a>
         <div>   
     </nav>
-   <div id="mainDiv"></div>
-        <div id="includedContent"></div>
+    <div id="mainDiv">
+        <div id='statsDiv'>
+            <div id='statsFilterDiv'>
+                <label for="genre-select">Genre:</label>
+                <select id='genre-select' onchange="loadArtists();">
+                    <option>-- Loading Genres --</option>
+                </select>
+
+                <label for="artist-select">Artist:</label>
+                <select id='artist-select' onchange="loadAlbums();">
+                    <option>-- Loading Artists --</option>
+                </select>
+            </div>
+            <div id='albumsDiv'></div>
+        </div>
+        <div id='quizDiv' class="hidden">
+            Quiz
+        </div>        
+    </div>
         
 </body>
 </html>
