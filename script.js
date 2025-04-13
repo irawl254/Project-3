@@ -106,6 +106,7 @@ async function fetchData() {
       const pic = document.createElement("img");
       pic.src = albums[i].cover_image;
       pic.alt = albums[i].name;
+      pic.classList.add("album-cover");
       //img.data-album_num=i;  
       albumsDiv.appendChild(pic);
     }
