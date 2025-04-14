@@ -1,133 +1,189 @@
 * {
-    box-sizing: border-box;
-    background-color: #31333c;
-  }
-  body {
-    margin: 0;
-    font-family: "Chakra Petch", sans-serif;
-  }
-  
-  .chakra-petch-bold {
-    font-family: "Chakra Petch", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-  }
-  
-  h1 {
-    color: #fff;
-    text-align: center;
-    font-family: "Chakra Petch", sans-serif;
-    font-weight: 600;
-    font-size: 3.5rem;
-    margin: 10px;
-    text-shadow: #ffffffa3 0px 0px 10px;
-  }
-  h2 {
-    color: #28d2fd;
-    text-align: center;
-    font-family: "Chakra Petch", sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: 0;
-    text-shadow: #ffffffa3 0px 0px 10px;
-  }
-  
-  .nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: #1a1b22; */
-    padding: 15px;
-    margin: 0;
-    width: 100%;
-  }
-  
-  .nav a {
-    color: #fff;
-    background-color: #1a1b22;
-    text-decoration: none;
-    font-family: "Chakra Petch", sans-serif;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin: 0px 10px;
-    padding: 5px 20px;
-    border-radius: 5px;
-  }
-  
-  .nav a:hover {
-    background-color: #28d2fd;
-    transition: all 0.2s ease;
-    color: #1a1b22;
-  }
-  
-  .hidden {
-    display:none;
-  }
+  box-sizing: border-box;
+  background-color: #31333c;
+}
+body {
+  margin: 0;
+  font-family: "Chakra Petch", sans-serif;
+}
 
-  #statsFilterDiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    font-size: 2rem;
-    color: #fff;
-    flex-wrap: wrap;
-  }
+.chakra-petch-bold {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
 
-  #statsFilterDiv select{
-    background-color: #1a1b22;
-    color: #fff;
-    border: none;
-    padding: 5px;
-    font-size: 1rem;
-    margin: 0 15px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+h1 {
+  color: #fff;
+  text-align: center;
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-size: 4rem;
+  margin: 10px;
+  text-shadow: #ffffffa3 0px 0px 10px;
+}
+h2 {
+  color: #28d2fd;
+  text-align: center;
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-top: 0;
+  text-shadow: #ffffffa3 0px 0px 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #1a1b22; */
+  padding: 15px;
+  margin: 0;
+  width: 100%;
+}
+
+.nav a {
+  color: #fff;
+  background-color: #1a1b22;
+  text-decoration: none;
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+.nav a:hover {
+  background-color: #28d2fd;
+  transition: all 0.2s ease;
+  color: #1a1b22;
+}
+
+.hidden {
+  display: none;
+}
+
+#statsFilterDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #fff;
+  flex-wrap: wrap;
+}
+
+#statsFilterDiv select {
+  background-color: #1a1b22;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  font-size: 1rem;
+  margin: 0 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
 #albumsDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.album-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#albumsDiv p {
+  color: #fff;
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0px 5px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  text-align: center;
+  width: 200px;
+  text-shadow: #28d2fdb9 0px 0px 10px;
+}
+
+.album-cover {
+  width: 200px;
+  height: auto;
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+/* styles.css */
+
+#loader {
+  font-family: "Chakra Petch", sans-serif;
+  text-align: center;
+  margin: 2em;
+  font-size: 1.2em;
+}
+
+.hidden {
+  display: none;
+}
+
+img:hover {
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+  box-shadow: #28d2fd46 0px 0px 15px;
+}
+/* I asked chat gpt how to add a loading animation */
+/* optional: spinner */
+.loader-spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #333;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  #albumsDiv {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    flex-direction: column;
   }
+}
 
-  .album-cover {
-    width: 200px;
-    height: auto;
-    margin: 10px;
+@media only screen and (max-width: 768px) {
+  #albumsDiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-direction: column;
   }
-
-  @media(max-width: 600px) {
-    #albumsDiv {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-        flex-direction: column;
-      }
+  #statsFilterDiv {
+    font-size: 1rem;
   }
-  
-  
-  @media only screen and (max-width: 768px) {
-    #albumsDiv {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-        flex-direction: column;
-      }
-      #statsFilterDiv {
-        font-size: 1rem;
-      }
-      #statsFilterDiv select{
-        font-size: 0.8rem;
-      }
-      .nav a {
-        font-size: 1rem;
-        padding: 5px 10px;
-      }
+  #statsFilterDiv select {
+    font-size: 0.8rem;
   }
+  .nav a {
+    font-size: 1rem;
+    padding: 5px 10px;
+  }
+}
