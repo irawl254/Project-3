@@ -237,66 +237,87 @@ function load2Albums() {
   pic.src = album1.cover_image;
   pic.alt = album1.album;
   pic.classList.add("album-cover");
-	pic.onclick = function () {
-		albumClicked(this);
-	};
-	if (album1.popularity >= album2.popularity){
-		pic.dataset.outcome = "winner";
-	} else {
-		pic.dataset.outcome = "loser";
-	}
-	album1Div.appendChild(pic);
+  pic.onclick = function () {
+    albumClicked(this);
+  };
+  if (album1.popularity >= album2.popularity) {
+    pic.dataset.outcome = "winner";
+  } else {
+    pic.dataset.outcome = "loser";
+  }
+  album1Div.innerHTML = ""; // Clear previous content
+  album1Div.appendChild(pic);
 
   // Create album name
   const name = document.createElement("p");
-	name.textContent = `Album: ${album1.album}`;
+  name.textContent = `Album: ${album1.album}`;
   name.classList.add("album-name");
-	album1Div.appendChild(name);
+  album1Div.appendChild(name);
 
-	const artistName = document.createElement("p");
-	artistName.textContent = `Artist: ${album1.artist}`;
+  const artistName = document.createElement("p");
+  artistName.textContent = `Artist: ${album1.artist}`;
   artistName.classList.add("album-name");
   album1Div.appendChild(artistName);
 
-// Create second album div
-	const album2Div = document.getElementById("album2Div");
+  // Create second album div
+  const album2Div = document.getElementById("album2Div");
 
   // Create album cover image
   const pic2 = document.createElement("img");
   pic2.src = album2.cover_image;
   pic2.alt = album2.album;
   pic2.classList.add("album-cover");
-	pic2.onclick = function () {
-		albumClicked(this);
-	};
-	if (album2.popularity >= album1.popularity){
-		pic2.dataset.outcome = "winner";
-	} else {
-		pic2.dataset.outcome = "loser";
-	}
-	album2Div.appendChild(pic2);
+  pic2.onclick = function () {
+    albumClicked(this);
+  };
+  if (album2.popularity >= album1.popularity) {
+    pic2.dataset.outcome = "winner";
+  } else {
+    pic2.dataset.outcome = "loser";
+  }
+  album2Div.innerHTML = ""; // Clear previous content
+  album2Div.appendChild(pic2);
 
   // Create album name
   const name2 = document.createElement("p");
-	name2.textContent = `Album: ${album2.album}`;
+  name2.textContent = `Album: ${album2.album}`;
   name2.classList.add("album-name");
-	album2Div.appendChild(name2);
+  album2Div.appendChild(name2);
 
-	const artistName2 = document.createElement("p");
-	artistName2.textContent = `Artist: ${album2.artist}`;
+  const artistName2 = document.createElement("p");
+  artistName2.textContent = `Artist: ${album2.artist}`;
   artistName2.classList.add("album-name");
   album2Div.appendChild(artistName2);
+	// Clear previous outcome message
+	document.getElementById("winOrLose").innerHTML = "";
 }
-function albumClicked(me){
-	const outcome = document.createElement("p");
-	if (me.dataset.outcome === "winner"){
-		outcome.textContent = "You Win!";
+
+
+function albumClicked(me) {
+	let score = localStorage.getItem("score");
+	if (score === null) {
+		score = 0;
+		localStorage.setItem("score", score);
 	}
-	else {
-		outcome.textContent = "You Lose!";
+	let gameCount = localStorage.getItem("gameCount");
+	if (gameCount === null) {
+		gameCount = 0;
+		localStorage.setItem("gameCount", gameCount);
 	}
-  outcome.classList.add("album-name");
-	const winner = document.getElementById("winOrLose");
-	winner.appendChild(outcome);
+	gameCount++;
+  if (me.dataset.outcome === "winner") {
+    document.getElementById("winOrLose").innerHTML = "You Win!";
+		score++;
+  } else {
+    document.getElementById("winOrLose").innerHTML = "You Lose!";
+  }
+	
+	document.getElementById("quizScore").innerHTML = `Wins: ${score} Total Games: ${gameCount}`;
+
+	setTimeout(() => {
+    load2Albums();
+  }, 3000);
+	localStorage.setItem("gameCount", gameCount);
+	localStorage.setItem("score", score);
 }
 fetchData();
