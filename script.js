@@ -189,7 +189,114 @@ function showDiv(divName) {
       statsDiv.classList.remove("hidden");
     }
     loadGenres();
+    loadQuizArray();
   }
 }
 
+function loadQuizArray() {
+  globalThis.albumList = [];
+  const genres = globalThis.data.data.spotify_top_genre_artists;
+  const quiz_limit = 500;
+  let number_loaded = 0;
+  for (let i in genres) {
+    for (let j in genres[i].artists) {
+      for (let k in genres[i].artists[j].albums) {
+        number_loaded++;
+        // Arbitray max number of records
+        if (number_loaded > quiz_limit) {
+          break;
+        }
+        let album = {
+          genre: genres[i].genre_name,
+          artist: genres[i].artists[j].name,
+          album: genres[i].artists[j].albums[k].name,
+          cover_image: genres[i].artists[j].albums[k].cover_image,
+          popularity: genres[i].artists[j].albums[k].popularity,
+        };
+
+        // Add the album object to the albumList array
+        globalThis.albumList.push(album);
+      }
+    }
+  }
+  load2Albums();
+}
+
+function load2Albums() {
+  // Generate the first random number
+  const x1 = Math.floor(Math.random() * globalThis.albumList.length);
+
+  // Generate the second random number, ensuring it is unique
+  const x2 = Math.floor(Math.random() * globalThis.albumList.length);
+  const album1 = globalThis.albumList[x1];
+  const album2 = globalThis.albumList[x2];
+  const album1Div = document.getElementById("album1Div");
+
+  // Create album cover image
+  const pic = document.createElement("img");
+  pic.src = album1.cover_image;
+  pic.alt = album1.album;
+  pic.classList.add("album-cover");
+	pic.onclick = function () {
+		albumClicked(this);
+	};
+	if (album1.popularity >= album2.popularity){
+		pic.dataset.outcome = "winner";
+	} else {
+		pic.dataset.outcome = "loser";
+	}
+	album1Div.appendChild(pic);
+
+  // Create album name
+  const name = document.createElement("p");
+	name.textContent = `Album: ${album1.album}`;
+  name.classList.add("album-name");
+	album1Div.appendChild(name);
+
+	const artistName = document.createElement("p");
+	artistName.textContent = `Artist: ${album1.artist}`;
+  artistName.classList.add("album-name");
+  album1Div.appendChild(artistName);
+
+// Create second album div
+	const album2Div = document.getElementById("album2Div");
+
+  // Create album cover image
+  const pic2 = document.createElement("img");
+  pic2.src = album2.cover_image;
+  pic2.alt = album2.album;
+  pic2.classList.add("album-cover");
+	pic2.onclick = function () {
+		albumClicked(this);
+	};
+	if (album2.popularity >= album1.popularity){
+		pic2.dataset.outcome = "winner";
+	} else {
+		pic2.dataset.outcome = "loser";
+	}
+	album2Div.appendChild(pic2);
+
+  // Create album name
+  const name2 = document.createElement("p");
+	name2.textContent = `Album: ${album2.album}`;
+  name2.classList.add("album-name");
+	album2Div.appendChild(name2);
+
+	const artistName2 = document.createElement("p");
+	artistName2.textContent = `Artist: ${album2.artist}`;
+  artistName2.classList.add("album-name");
+  album2Div.appendChild(artistName2);
+}
+function albumClicked(me){
+	const outcome = document.createElement("p");
+	if (me.dataset.outcome === "winner"){
+		outcome.textContent = "You Win!";
+	}
+	else {
+		outcome.textContent = "You Lose!";
+	}
+  outcome.classList.add("album-name");
+	const winner = document.getElementById("winOrLose");
+	winner.appendChild(outcome);
+}
 fetchData();
