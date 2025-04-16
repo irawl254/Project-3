@@ -27,7 +27,7 @@ h2 {
   text-align: center;
   font-family: "Chakra Petch", sans-serif;
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-top: 0;
   text-shadow: #ffffffa3 0px 0px 10px;
 }
@@ -134,6 +134,84 @@ img {
 	-webkit-animation: fade-in-fwd 0.6s ease-out both;
 	        animation: fade-in-fwd 0.6s ease-out both;
 }
+
+#quizInstructions h2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+    color: #fff;
+    font-size: 1.75rem;
+    text-shadow: none;
+}
+
+#albums{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+#album1Div, #album2Div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+#album1Div p, #album2Div p{
+    color: #fff;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0px 5px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 200px;
+}
+
+#winOrLose{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+    color: #28d2fd;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-size: 2rem;
+    margin: 0px 5px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+#quizScore{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+    color: #28d2fd;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin: 0px 5px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
 
 img:hover {
   transform: scale(1.05);
