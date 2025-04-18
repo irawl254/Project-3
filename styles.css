@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   background-color: #31333c;
+  font-family: 'Chakra Petch', sans-serif;
 }
 body {
   margin: 0;
@@ -84,7 +85,7 @@ h2 {
   margin: 0 15px;
   border-radius: 5px;
   cursor: pointer;
-  width: auto;
+  width: fit-content;
 }
 
 #albumsDiv {
@@ -97,7 +98,7 @@ h2 {
 .album-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -141,7 +142,27 @@ input {
   color: #fff;
 }
 
-/* styles.css */
+.text-table {
+    width: 75%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-size: 1.5rem;
+  }
+  
+  .text-table th,
+  .text-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    color:#fff;
+  }
+  
+  .text-table th {
+    background-color: #157cd7;
+    font-weight: bold;
+    text-shadow: #1a1b22 0px 0px 10px;
+  }
+
 
 #loader {
   font-family: "Chakra Petch", sans-serif;
@@ -215,7 +236,7 @@ img {
   font-weight: 600;
   font-size: 2.5rem;
   margin: 0px 5px;
-  padding: 20px 20px 0px 20px;
+  padding: 0px 20px;
   text-align: center;
   width: 100%;
   text-shadow: #fef32db9 0px 0px 10px;

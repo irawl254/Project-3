@@ -1,5 +1,11 @@
 async function fetchData() {
+  globalThis.albumDisplayList = [];
   const loader = document.getElementById("loader");
+	let gridOrTable = localStorage.getItem("gridOrTable");
+  if (gridOrTable === null) {
+    gridOrTablere = "grid";
+    localStorage.setItem("gridOrTable", gridOrTable);
+  }
   loader.classList.remove("hidden"); // Show loader
   try {
     const response = await fetch("https://music.is120.ckearl.com/");
@@ -11,6 +17,103 @@ async function fetchData() {
   } finally {
     loader.classList.add("hidden"); // Hide loader
   }
+	toggleGridOrTable(gridOrTable);
+}
+function toggleGridOrTable(g) {
+  // Save the selected mode in localStorage
+  localStorage.setItem("gridOrTable", g);
+
+  // Reapply the genre and artist selections
+  const genreSelect = document.getElementById("genre-select");
+  const artistSelect = document.getElementById("artist-select");
+
+  // Apply the saved genre and artist to the selects
+  const savedGenre = localStorage.getItem("selectedGenre");
+  const savedArtist = localStorage.getItem("selectedArtist");
+
+  if (savedGenre) {
+    genreSelect.value = savedGenre;
+  }
+
+  if (savedArtist) {
+    artistSelect.value = savedArtist;
+  }
+
+  // Reload albums after reapplying genre and artist
+  loadAlbums();
+
+  // Switch between grid and table mode
+  if (g === "grid") {
+    displayAlbums();
+  } else {
+    displayTable();
+  }
+}
+	
+function displayAlbums() {
+  const albumsDiv = document.getElementById("albumsDiv");
+	albumsDiv.innerHTML = ""; // Clear previous content
+  for (let i in globalThis.albumDisplayList) {
+    const album = globalThis.albumDisplayList[i];
+    // Get the albumsDiv element
+    if (!album) {
+      console.error("Album data is not available");
+      return;
+    }
+    // Create container div
+    const albumContainer = document.createElement("div");
+    albumContainer.classList.add("album-container");
+
+    // Create album cover image
+    const pic = document.createElement("img");
+    pic.src = album.cover_image;
+    pic.alt = album.album;
+    pic.classList.add("album-cover");
+
+    // Create album name
+    const name = document.createElement("p");
+    name.textContent = album.album;
+    name.classList.add("album-name");
+
+    // Append image and name to container, then container to albumsDiv
+    albumContainer.appendChild(pic);
+    albumContainer.appendChild(name);
+    albumsDiv.appendChild(albumContainer);
+  }
+}
+function displayTable() {
+  const albumsDiv = document.getElementById("albumsDiv");
+  albumsDiv.innerHTML = ""; // Clear previous content
+
+  const table = document.createElement("table");
+  table.classList.add("text-table"); // Optional: add a class for styling
+
+  // Create table header
+  const header = document.createElement("tr");
+  const artistHeader = document.createElement("th");
+  artistHeader.textContent = "Artist";
+  const albumHeader = document.createElement("th");
+  albumHeader.textContent = "Album";
+  header.appendChild(artistHeader);
+  header.appendChild(albumHeader);
+  table.appendChild(header);
+
+  // Add rows for each album
+  for (const album of globalThis.albumDisplayList) {
+    const row = document.createElement("tr");
+
+    const artistCell = document.createElement("td");
+    artistCell.textContent = album.artist;
+
+    const albumCell = document.createElement("td");
+    albumCell.textContent = album.album;
+
+    row.appendChild(artistCell);
+    row.appendChild(albumCell);
+    table.appendChild(row);
+  }
+
+  albumsDiv.appendChild(table);
 }
 
 function loadGenres() {
@@ -30,6 +133,10 @@ function loadGenres() {
     option.textContent = genres[i].genre_name;
     option.value = i;
     mySelect.appendChild(option);
+  }
+	const savedGenre = localStorage.getItem("selectedGenre");
+  if (savedGenre) {
+    mySelect.value = savedGenre;
   }
   loadArtists();
 }
@@ -62,58 +169,12 @@ function loadArtists() {
     option.value = i;
     artistSelect.appendChild(option);
   }
+	const savedArtist = localStorage.getItem("selectedArtist");
+  if (savedArtist) {
+    artistSelect.value = savedArtist;
+  }
   loadAlbums();
 }
-
-//   function loadAlbums(){
-//     // check to make sure all the elements exit
-//     const genreSelect = document.getElementById("genre-select");
-//     if (!genreSelect) {
-//       console.error("genre-select not found");
-//       return;
-//     }
-
-//     const selectedGenre = genreSelect.value;
-//     if(!selectedGenre){
-//       console.error("no genre selected");
-//       return; // exit if there isn't a genre
-//     }
-
-//     const artistSelect = document.getElementById("artist-select");
-//     if (!artistSelect) {
-//       console.error("artist-select not found");
-//       return;
-//     }
-
-//     const selectedArtist = artistSelect.value;
-//     if(!selectedArtist){
-//       console.error("no artist selected");
-//       return; // exit if there isn't a genre
-//     }
-
-//     const albumsDiv = document.getElementById("albumsDiv");
-//     if (!albumsDiv) {
-//       console.error("albumsDiv not found");
-//       return;
-//     }
-
-//     albumsDiv.innerHTML="";
-
-//     // now get the albums for the specified genre and artist
-//     const albums = globalThis.data.data.spotify_top_genre_artists[selectedGenre].artists[selectedArtist].albums;
-//     for (let i in albums) {
-//       const pic = document.createElement("img");
-//       pic.src = albums[i].cover_image;
-//       pic.alt = albums[i].name;
-//       pic.classList.add("album-cover");
-//       //img.data-album_num=i;
-//       albumsDiv.appendChild(pic);
-//         const name = document.createElement("p");
-//         name.textContent = albums[i].name;
-//         name.classList.add("album-name");
-//         albumsDiv.appendChild(name);
-//     }
-//   }
 
 // I asked Chatgpt to format the divs in this function in a way that the album names could always appear under the album covers
 function loadAlbums() {
@@ -129,6 +190,9 @@ function loadAlbums() {
   const selectedGenre = genreSelect.value;
   const selectedArtist = artistSelect.value;
 
+	localStorage.setItem("selectedGenre", selectedGenre);
+  localStorage.setItem("selectedArtist", selectedArtist);
+
   if (!selectedGenre || !selectedArtist) {
     return;
   }
@@ -139,30 +203,28 @@ function loadAlbums() {
     globalThis.data.data.spotify_top_genre_artists[selectedGenre].artists[
       selectedArtist
     ].albums;
-
+  globalThis.albumDisplayList = []; // Clear previous album display list
   for (let i in albums) {
     const album = albums[i];
-
-    // Create container div
-    const albumContainer = document.createElement("div");
-    albumContainer.classList.add("album-container");
-
-    // Create album cover image
-    const pic = document.createElement("img");
-    pic.src = album.cover_image;
-    pic.alt = album.name;
-    pic.classList.add("album-cover");
-
-    // Create album name
-    const name = document.createElement("p");
-    name.textContent = album.name;
-    name.classList.add("album-name");
-
-    // Append image and name to container, then container to albumsDiv
-    albumContainer.appendChild(pic);
-    albumContainer.appendChild(name);
-    albumsDiv.appendChild(albumContainer);
+    let dA = {
+      album: album.name,
+      artist:
+        globalThis.data.data.spotify_top_genre_artists[selectedGenre].artists[
+          selectedArtist
+        ].name,
+      cover_image: album.cover_image,
+      genre:
+        globalThis.data.data.spotify_top_genre_artists[selectedGenre]
+          .genre_name,
+    };
+    globalThis.albumDisplayList.push(dA);
   }
+	const viewMode = localStorage.getItem("gridOrTable");
+  if (viewMode === "grid") {
+    displayAlbums();
+  } else {
+    displayTable();
+	}
 }
 
 function showDiv(divName) {
@@ -288,36 +350,42 @@ function load2Albums() {
   artistName2.textContent = `Artist: ${album2.artist}`;
   artistName2.classList.add("album-name");
   album2Div.appendChild(artistName2);
-	// Clear previous outcome message
-	document.getElementById("winOrLose").innerHTML = "";
+  // Clear previous outcome message
+  document.getElementById("winOrLose").innerHTML = "";
 }
 
-
 function albumClicked(me) {
-	let score = localStorage.getItem("score");
-	if (score === null) {
-		score = 0;
-		localStorage.setItem("score", score);
-	}
-	let gameCount = localStorage.getItem("gameCount");
-	if (gameCount === null) {
-		gameCount = 0;
-		localStorage.setItem("gameCount", gameCount);
-	}
-	gameCount++;
+	const correctSound = new Audio('cute-level-up-3-189853.mp3');
+	const incorrectSound = new Audio('negative_beeps-6008.mp3');
+
+  let score = localStorage.getItem("score");
+  if (score === null) {
+    score = 0;
+    localStorage.setItem("score", score);
+  }
+  let gameCount = localStorage.getItem("gameCount");
+  if (gameCount === null) {
+    gameCount = 0;
+    localStorage.setItem("gameCount", gameCount);
+  }
+  gameCount++;
   if (me.dataset.outcome === "winner") {
     document.getElementById("winOrLose").innerHTML = "You Win!";
-		score++;
+    score++;
+		correctSound.play();
   } else {
     document.getElementById("winOrLose").innerHTML = "You Lose!";
+		incorrectSound.play();
   }
-	
-	document.getElementById("quizScore").innerHTML = `Wins: ${score} Total Games: ${gameCount}`;
 
-	setTimeout(() => {
+  document.getElementById(
+    "quizScore"
+  ).innerHTML = `Wins: ${score} Total Games: ${gameCount}`;
+
+  setTimeout(() => {
     load2Albums();
   }, 3000);
-	localStorage.setItem("gameCount", gameCount);
-	localStorage.setItem("score", score);
+  localStorage.setItem("gameCount", gameCount);
+  localStorage.setItem("score", score);
 }
 fetchData();
